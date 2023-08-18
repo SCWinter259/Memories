@@ -10,10 +10,19 @@ import {
 } from "@material-ui/core";
 import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
 import moment from "moment";
-import {PostProps} from '../../../interfaces/PostProps';
+import { PostInterface } from "../../../interfaces/PostInterface";
 
-export const Post: React.FC<PostProps> = ({ post }) => {
+interface PostProps {
+  post: PostInterface;
+  setCurrentId: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   const classes = useStyles();
+
+  const handleEditButtonClick = () => {
+    setCurrentId(post._id);
+  }
 
   return (
     <Card className={classes.card}>
@@ -29,7 +38,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: "white" }} size="small" onClick={() => {}}>
+        <Button style={{ color: "white" }} size="small" onClick={handleEditButtonClick}>
           <MoreHoriz fontSize="medium" />
         </Button>
       </div>
@@ -45,13 +54,13 @@ export const Post: React.FC<PostProps> = ({ post }) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" onClick={() => {}}>
-            <ThumbUpAlt fontSize="small"/>
-            Like
-            {post.likeCount}
+          <ThumbUpAlt fontSize="small" />
+          Like
+          {post.likeCount}
         </Button>
         <Button size="small" color="primary" onClick={() => {}}>
-            <Delete fontSize="small"/>
-            Delete
+          <Delete fontSize="small" />
+          Delete
         </Button>
       </CardActions>
     </Card>
