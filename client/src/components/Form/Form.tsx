@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
+import { PostInterface } from "../../interfaces/PostInterface";
 
-export const Form = () => {
+interface FormProps {
+  currentId: string | number | null;
+  setCurrentId: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -16,14 +22,58 @@ export const Form = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
+  // find the post with the correct id that needs to be updated
+  const post = useSelector((state: any) =>
+    currentId
+      ? state.posts.find((item: PostInterface) => item._id === currentId)
+      : null
+  );
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
+  const handleCreatorChange = (event: any) => {
+    setPostData({ ...postData, creator: event.target.value });
+  };
+
+  const handleTitleChange = (event: any) => {
+    setPostData({ ...postData, title: event.target.value });
+  };
+
+  const handleMessageChange = (event: any) => {
+    setPostData({ ...postData, message: event.target.value });
+  };
+
+  const handleTagsChange = (event: any) => {
+    setPostData({ ...postData, tags: event.target.value });
+  };
+
+  const handleSelectedFile = ({ base64 }: any) => {
+    setPostData({ ...postData, selectedFile: base64 });
+  };
+
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    dispatch(createPost(postData))
+    if (currentId === 0) {
+      dispatch(createPost(postData));
+      clear();
+    } else {
+      dispatch(updatePost(currentId, postData));
+      clear();
+    }
   };
 
   const clear = () => {
-
+    setCurrentId(0);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
 
   return (
@@ -41,9 +91,7 @@ export const Form = () => {
           label="Creator"
           fullWidth
           value={postData.creator}
-          onChange={(event) =>
-            setPostData({ ...postData, creator: event.target.value })
-          }
+          onChange={handleCreatorChange}
         />
         <TextField
           name="title"
@@ -51,9 +99,7 @@ export const Form = () => {
           label="Title"
           fullWidth
           value={postData.title}
-          onChange={(event) =>
-            setPostData({ ...postData, title: event.target.value })
-          }
+          onChange={handleTitleChange}
         />
         <TextField
           name="message"
@@ -61,9 +107,7 @@ export const Form = () => {
           label="Message"
           fullWidth
           value={postData.message}
-          onChange={(event) =>
-            setPostData({ ...postData, message: event.target.value })
-          }
+          onChange={handleMessageChange}
         />
         <TextField
           name="tags"
@@ -71,18 +115,10 @@ export const Form = () => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={(event) =>
-            setPostData({ ...postData, tags: event.target.value })
-          }
+          onChange={handleTagsChange}
         />
         <div className={classes.fileInput}>
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
-          />
+          <FileBase type="file" multiple={false} onDone={handleSelectedFile} />
         </div>
         <Button
           className={classes.buttonSubmit}
