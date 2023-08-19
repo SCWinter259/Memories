@@ -15,7 +15,7 @@ import './index.css';
 */
 
 const App = () => {
-  const [currentId, setCurrentId] = useState(null);
+  const [currentId, setCurrentId] = useState(0);
   const classes = useStyles();
   const dispatch = useDispatch();
 
