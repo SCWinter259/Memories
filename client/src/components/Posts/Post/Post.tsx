@@ -12,7 +12,7 @@ import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
 import moment from "moment";
 import { PostType } from "../../../interfaces/PostTypes";
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../../actions/posts";
+import { deletePost, likePost } from "../../../actions/posts";
 
 interface PostProps {
   post: PostType;
@@ -27,7 +27,9 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
     setCurrentId(post._id);
   };
 
-  const handleLikeButtonClick = () => {};
+  const handleLikeButtonClick = () => {
+    dispatch(likePost(post._id));
+  };
 
   const handleDeleteButtonClick = () => {
     dispatch(deletePost(post._id));
