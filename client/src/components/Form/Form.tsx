@@ -4,7 +4,7 @@ import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
-import { PostInterface } from "../../interfaces/PostInterface";
+import { PostType } from "../../interfaces/PostTypes";
 
 interface FormProps {
   currentId: string | number | null;
@@ -25,7 +25,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   // find the post with the correct id that needs to be updated
   const post = useSelector((state: any) =>
     currentId
-      ? state.posts.find((item: PostInterface) => item._id === currentId)
+      ? state.posts.find((item: PostType) => item._id === currentId)
       : null
   );
 
@@ -58,11 +58,11 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
 
     if (currentId === 0) {
       dispatch(createPost(postData));
-      clear();
     } else {
+      console.log('updatePost in Form.tsx')
       dispatch(updatePost(currentId, postData));
-      clear();
     }
+    clear();
   };
 
   const clear = () => {
@@ -84,7 +84,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Memory</Typography>
         <TextField
           name="creator"
           variant="outlined"
