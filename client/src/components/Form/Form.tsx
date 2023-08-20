@@ -46,7 +46,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   };
 
   const handleTagsChange = (event: any) => {
-    setPostData({ ...postData, tags: event.target.value });
+    setPostData({ ...postData, tags: event.target.value.split(',') });
   };
 
   const handleSelectedFile = ({ base64 }: any) => {

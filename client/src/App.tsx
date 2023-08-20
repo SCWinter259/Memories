@@ -6,7 +6,7 @@ import memories from "./images/memories.png";
 import useStyles from "./styles";
 import { Posts } from "./components/Posts/Posts";
 import { Form } from "./components/Form/Form";
-import './index.css';
+import "./index.css";
 
 /* 
     Container centers your content horizontally
@@ -38,6 +38,7 @@ const App = () => {
       </AppBar>
       <Grow in>
         <Grid
+          className={classes.mainContainer}
           container
           justifyContent="space-between"
           alignItems="stretch"
@@ -45,10 +46,10 @@ const App = () => {
         >
           {/* Takes the full width (12) on large devices, and 7 on small ones */}
           <Grid item xs={12} sm={7}>
-            <Posts setCurrentId={setCurrentId}/>
+            <Posts setCurrentId={setCurrentId} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Form currentId={currentId} setCurrentId={setCurrentId}/>
+            <Form currentId={currentId} setCurrentId={setCurrentId} />
           </Grid>
         </Grid>
       </Grow>
