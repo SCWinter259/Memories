@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
+import { Container, Grow, Grid } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { getPosts } from "./actions/posts";
-import memories from "./images/memories.png";
 import useStyles from "./styles";
 import { Posts } from "./components/Posts/Posts";
 import { Form } from "./components/Form/Form";
+import { NavBar } from "./components/NavBar/NavBar";
 import "./index.css";
 
 /* 
@@ -25,17 +25,7 @@ const App = () => {
 
   return (
     <Container>
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography variant="h2" align="center">
-          Memories
-        </Typography>
-        <img
-          className={classes.image}
-          src={memories}
-          alt="memories"
-          height="60"
-        />
-      </AppBar>
+      <NavBar/>
       <Grow in>
         <Grid
           className={classes.mainContainer}
