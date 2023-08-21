@@ -1,5 +1,5 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from "../constants/actionTypes";
-import { PostType } from "../interfaces/PostTypes";
+import { PostType } from "../interfaces/PostType";
 
 export const reducer = (state = [], action: { type: string; payload: any }) => {
   // in this reducer, state is always posts

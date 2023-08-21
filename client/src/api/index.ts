@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PostType } from '../interfaces/PostTypes';
+import { PostType } from '../interfaces/PostType';
 
 // axios is used to make api calls to our own backend
 

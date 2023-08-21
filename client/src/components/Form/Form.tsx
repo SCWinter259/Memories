@@ -4,7 +4,7 @@ import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
-import { PostType } from "../../interfaces/PostTypes";
+import { PostType } from "../../interfaces/PostType";
 
 interface FormProps {
   currentId: string | number | null;

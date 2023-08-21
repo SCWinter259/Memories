@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
 import moment from "moment";
-import { PostType } from "../../../interfaces/PostTypes";
+import { PostType } from "../../../interfaces/PostType";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 
