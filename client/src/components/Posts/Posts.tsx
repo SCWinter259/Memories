@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Grid, CircularProgress } from "@material-ui/core";
 import { Post } from "./Post/Post";
 import useStyles from "./styles";
-import { PostType } from "../../interfaces/PostTypes";
+import { PostType } from "../../interfaces/PostType";
 
 interface PostsProps {
   setCurrentId: React.Dispatch<React.SetStateAction<any>>;
