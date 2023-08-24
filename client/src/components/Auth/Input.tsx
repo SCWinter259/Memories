@@ -4,7 +4,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 interface InputFieldProps {
   name: string;
-  changeHandler: () => void;
+  changeHandler: (event: any) => void;
   label: string;
   half?: boolean;
   autoFocus?: boolean;
