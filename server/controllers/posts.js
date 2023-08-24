@@ -60,16 +60,32 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  // if data goes through a middleware, and in that middleware
+  // we populate the request object (in our case userId), then the
+  // controller function will receive that modified object and can use
+  // that attribute
+  if (!req.userId) return res.json({ message: unauthenticated });
+
   // check if the id is valid
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
   const post = await PostMessage.findById(id);
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    id,
-    { likeCount: post.likeCount + 1 },
-    { new: true }
-  );
+
+  // to find out if the user already like the post
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+
+  if (index === -1) {
+    // if the user has not liked the post => like the post
+    post.likes.push(req.userId);
+  } else {
+    // if the user has liked the post => dislike the post
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };
