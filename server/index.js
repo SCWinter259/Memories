@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from 'dotenv';
 import postRoutes from "./routes/posts.js";     // import the route
+import userRoutes from "./routes/users.js";
 
 const app = express(); // initialize the app
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors());
 
 // use express middleware to connect the route to the application
 app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
 // it seems like we cannot do a process.env.PORT below because
 // the code below is in a promise

@@ -11,17 +11,41 @@ import useStyles from "./styles";
 import { LockOutlined } from "@material-ui/icons";
 import { Input } from "./Input";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
-import { CredentialType } from "../../interfaces/CredentialType";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { signin, signup } from "../../actions/auth";
+
+const initialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+}
 
 export const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const submitHandler = () => {};
+  const submitHandler = (event: any) => {
+    event.preventDefault();
 
-  const changeHandler = () => {};
+    if(isSignup) {
+      // we pass the history object so that we can navigate once something happens
+      dispatch(signup(formData, history));
+    } else {
+      dispatch(signin(formData, history));
+    }
+  };
+
+  const changeHandler = (event: any) => {
+    // name is from the name prop in the Input component
+    setFormData({...formData, [event.target.name]: event.target.value});
+  };
 
   const showPasswordHandler = () => {
     return setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -33,18 +57,20 @@ export const Auth = () => {
   };
 
   const googleSuccess = async (res: any) => {
-    const decoded: CredentialType = jwt_decode(res.credential);
+    const result = res?.profileObj;
+    const token = res?.tokenId;
 
-    const { name, picture, sub } = decoded;
+    try {
+      dispatch({type: 'AUTH', data: {result, token}});
 
-    const user = {
-      _id: sub,
-      _type: "user",
-      userName: name,
-      image: picture,
-    };
+      // move user to home page after login
+      history.push('/')
+    } catch (error) {
+      console.log(error);
+    }
 
-    console.log(decoded);
+    console.log(res);
+    console.log('log in okay');
   };
 
   const googleError = () => {
@@ -70,8 +96,8 @@ export const Auth = () => {
                   half
                 />
                 <Input
-                  name="firstName"
-                  label="First Name"
+                  name="lastName"
+                  label="Last Name"
                   changeHandler={changeHandler}
                   half
                 />
