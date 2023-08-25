@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import useStyles from "./styles";
 import {
   Card,
@@ -8,7 +8,12 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
-import { ThumbUpAlt, Delete, MoreHoriz } from "@material-ui/icons";
+import {
+  ThumbUpAlt,
+  Delete,
+  MoreHoriz,
+  ThumbUpAltOutlined,
+} from "@material-ui/icons";
 import moment from "moment";
 import { PostType } from "../../../interfaces/PostType";
 import { useDispatch } from "react-redux";
@@ -22,6 +27,7 @@ interface PostProps {
 export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(String(localStorage.getItem("profile")));
 
   const handleEditButtonClick = () => {
     setCurrentId(post._id);
@@ -35,6 +41,39 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
     dispatch(deletePost(post._id));
   };
 
+  // a mini component to change the 'like' and 'likes'
+  // in plural and singular cases
+  const Likes = () => {
+    const numberOfLikes = post.likes.length;
+    const gId = user?.result?.googleId;
+    const myId = user?.result?._id;
+    const likeText = numberOfLikes > 1 ? "likes" : "like";
+
+    if (numberOfLikes > 0) {
+      return post.likes.find((like) => like === (gId || myId)) ? (
+        <Fragment>
+          <ThumbUpAlt fontSize="small" />
+          &nbsp;
+          {numberOfLikes > 2
+            ? `You and ${numberOfLikes - 1} others`
+            : `${numberOfLikes} ${likeText}`}
+        </Fragment>
+      ) : (
+        <Fragment>
+          <ThumbUpAltOutlined fontSize="small" />
+          &nbsp;{numberOfLikes} {likeText}
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment>
+        <ThumbUpAltOutlined fontSize="small" />
+        &nbsp;Like
+      </Fragment>
+    );
+  };
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -46,7 +85,7 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         title={post.title}
       ></CardMedia>
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>
@@ -69,14 +108,18 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         {post.title}
       </Typography>
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component='p'>
+        <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" onClick={handleLikeButtonClick}>
-          <ThumbUpAlt fontSize="small" />
-          &nbsp; Like  {post.likeCount}
+        <Button
+          size="small"
+          color="primary"
+          disabled={!user?.result}
+          onClick={handleLikeButtonClick}
+        >
+          <Likes />
         </Button>
         <Button size="small" color="primary" onClick={handleDeleteButtonClick}>
           <Delete fontSize="small" />
