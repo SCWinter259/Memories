@@ -13,7 +13,6 @@ interface FormProps {
 
 export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -29,13 +28,11 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
       : null
   );
 
+  const user = JSON.parse(String(localStorage.getItem("profile")));
+
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-
-  const handleCreatorChange = (event: any) => {
-    setPostData({ ...postData, creator: event.target.value });
-  };
 
   const handleTitleChange = (event: any) => {
     setPostData({ ...postData, title: event.target.value });
@@ -46,7 +43,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   };
 
   const handleTagsChange = (event: any) => {
-    setPostData({ ...postData, tags: event.target.value.split(',') });
+    setPostData({ ...postData, tags: event.target.value.split(",") });
   };
 
   const handleSelectedFile = ({ base64 }: any) => {
@@ -57,10 +54,9 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     event.preventDefault();
 
     if (currentId === 0) {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
     } else {
-      console.log('updatePost in Form.tsx')
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
     }
     clear();
   };
@@ -68,13 +64,22 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(0);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
       selectedFile: "",
     });
   };
+
+  if(!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please Sign In to create your own memories and like other's memories
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -84,15 +89,9 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Memory</Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={handleCreatorChange}
-        />
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} a Memory
+        </Typography>
         <TextField
           name="title"
           variant="outlined"
