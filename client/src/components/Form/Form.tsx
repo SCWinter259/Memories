@@ -5,6 +5,7 @@ import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 import { PostType } from "../../types/PostType";
+import { useHistory } from "react-router-dom";
 
 interface FormProps {
   currentId: string | number | null;
@@ -24,11 +25,12 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   // find the post with the correct id that needs to be updated
   const post = useSelector((state: any) =>
     currentId
-      ? state.posts.find((item: PostType) => item._id === currentId)
+      ? state.posts.posts.find((item: PostType) => item._id === currentId)
       : null
   );
 
   const user = JSON.parse(String(localStorage.getItem("profile")));
+  const history = useHistory();
 
   useEffect(() => {
     if (post) setPostData(post);
@@ -54,7 +56,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     event.preventDefault();
 
     if (currentId === 0) {
-      dispatch(createPost({ ...postData, name: user?.result?.name }));
+      dispatch(createPost({ ...postData, name: user?.result?.name }, history));
     } else {
       dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
     }
