@@ -1,6 +1,6 @@
 import axios from "axios";
-import { PostType } from "../interfaces/PostType";
-import { FormDataType } from "../interfaces/FormDataType";
+import { PostType } from "../types/PostType";
+import { FormDataType } from "../types/FormDataType";
 
 // axios is used to make api calls (send requests) to our own backend
 const API = axios.create({ baseURL: "http://localhost:5000" });
@@ -19,12 +19,18 @@ API.interceptors.request.use((req: any) => {
   return req;
 });
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (page: string | 1) => API.get(`/posts?page=${page}`);
 export const createPost = (newPost: PostType) => API.post("/posts", newPost);
 export const updatePost = (id: string, updatedPost: PostType) =>
   API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id: string) => API.delete(`/posts/${id}`);
 export const likePost = (id: string) => API.patch(`/posts/${id}/likePost`);
+export const fetchPostsBySearch = (searchQuery: any) =>
+  API.get(
+    `posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
+      searchQuery.tags
+    }`
+  );
 
 export const signIn = (formData: FormDataType) =>
   API.post("/user/signin", formData);

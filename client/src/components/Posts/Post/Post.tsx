@@ -15,7 +15,7 @@ import {
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import moment from "moment";
-import { PostType } from "../../../interfaces/PostType";
+import { PostType } from "../../../types/PostType";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 
@@ -75,7 +75,7 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   };
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} raised elevation={6}>
       <CardMedia
         className={classes.media}
         image={

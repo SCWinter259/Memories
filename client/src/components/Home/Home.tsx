@@ -12,7 +12,7 @@ import {
 import { useHistory, useLocation } from "react-router-dom";
 import { Posts } from "../Posts/Posts";
 import { Form } from "../Form/Form";
-import { getPosts } from "../../actions/posts";
+import { getPosts, getPostsBySearch } from "../../actions/posts";
 import { Paginate } from "../Pagination";
 import ChipInput from "material-ui-chip-input";
 import useStyles from "./styles";
@@ -38,39 +38,43 @@ export const Home = () => {
   const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
   const classes = useStyles();
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-
-  const onSearchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onSearchChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSearch(event.target.value);
-  }
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    if(event.key === "Enter") {
+    if (event.key === "Enter") {
       // search for post
       searchPost();
     }
-  }
+  };
 
   const handleAdd = (tag: string) => {
     setTags([...tags, tag]);
-  }
+  };
 
   const handleDelete = (tagToDelete: string) => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
-  }
+  };
 
   const searchPost = () => {
-    if(search.trim()) {
+    if (search.trim() || tags) {
       //dispatch => fetch search post
+      // tags has to be render to a string because we cannot pass an
+      // array through the url parameter
+      dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
+      history.push(
+        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`
+      );
     } else {
-      history.push('/');
+      history.push("/");
     }
-  }
+  };
 
   return (
     <Grow in>
@@ -102,19 +106,28 @@ export const Home = () => {
                 onChange={onSearchChangeHandler}
               />
               <ChipInput
-              style={{margin: '10px 0'}}
-              value={tags}
-              onAdd={handleAdd}
-              onDelete={handleDelete}
-              label="Search Tags"
-              variant="outlined"
+                style={{ margin: "10px 0" }}
+                value={tags}
+                onAdd={handleAdd}
+                onDelete={handleDelete}
+                label="Search Tags"
+                variant="outlined"
               />
-              <Button onClick={searchPost} className={classes.appBarSearch} variant="contained" color="primary">Search</Button>
+              <Button
+                onClick={searchPost}
+                className={classes.appBarSearch}
+                variant="contained"
+                color="primary"
+              >
+                Search
+              </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper elevation={6}>
-              <Paginate />
-            </Paper>
+            {!searchQuery && !tags.length && (
+              <Paper elevation={6} className={classes.pagination}>
+                <Paginate page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>

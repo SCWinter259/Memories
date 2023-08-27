@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
-import memories from "../../images/memories.png";
-import decode from 'jwt-decode';
+import memoriesLogo from "../../images/memoriesLogo.png";
+import memoriesText from "../../images/memoriesText.png";
+import decode from "jwt-decode";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 
@@ -16,24 +17,24 @@ export const NavBar = () => {
   const location = useLocation();
 
   const logout = () => {
-    dispatch({type: 'LOGOUT'});
+    dispatch({ type: "LOGOUT" });
 
-    history.push('/');
+    history.push("/");
 
     setUser(null);
-  }
+  };
 
   // we shall get the profile when that location (url) changes
   useEffect(() => {
     const token = user?.token;
 
-    if(token) {
+    if (token) {
       const decodedToken = decode<any>(token);
 
       // checks if the token has expired or not.
       // decodedToken.exp returns the expire time in seconds since epoch
       // Date().getTime() returns the number of miliseconds since epoch
-      if(decodedToken.exp * 1000 < new Date().getTime()) {
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
         logout();
       }
     }
@@ -43,23 +44,15 @@ export const NavBar = () => {
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography
-          component={Link}
-          to="/"
-          className={classes.heading}
-          variant="h2"
-          align="center"
-        >
-          Memories
-        </Typography>
+      <Link to="/" className={classes.brandContainer}>
+        <img src={memoriesText} alt="icon" height="45px" />
         <img
           className={classes.image}
-          src={memories}
+          src={memoriesLogo}
           alt="memories"
-          height="60"
+          height="40px"
         />
-      </div>
+      </Link>
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
           <div className={classes.profile}>
