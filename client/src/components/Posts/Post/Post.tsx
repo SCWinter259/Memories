@@ -15,7 +15,7 @@ import {
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import moment from "moment";
-import { PostType } from "../../../interfaces/PostType";
+import { PostType } from "../../../types/PostType";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 

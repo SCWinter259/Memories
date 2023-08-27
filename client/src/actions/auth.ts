@@ -1,4 +1,4 @@
-import { FormDataType } from "../interfaces/FormDataType";
+import { FormDataType } from "../types/FormDataType";
 import { AUTH } from "../constants/actionTypes";
 import * as api from "../api/index";
 
