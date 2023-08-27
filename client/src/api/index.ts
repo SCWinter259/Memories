@@ -25,6 +25,12 @@ export const updatePost = (id: string, updatedPost: PostType) =>
   API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id: string) => API.delete(`/posts/${id}`);
 export const likePost = (id: string) => API.patch(`/posts/${id}/likePost`);
+export const fetchPostsBySearch = (searchQuery: any) =>
+  API.get(
+    `posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
+      searchQuery.tags
+    }`
+  );
 
 export const signIn = (formData: FormDataType) =>
   API.post("/user/signin", formData);

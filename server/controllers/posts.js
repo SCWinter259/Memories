@@ -87,3 +87,28 @@ export const likePost = async (req, res) => {
 
   res.json(updatedPost);
 };
+
+// QUERY -> /posts?page=1 -> page = 1
+// PARAMS -> /posts/123 -> id = 123
+// both ways are okay
+// usually we use query to query some data, and
+// use params to get some specific resource
+
+export const getPostsBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+
+  try {
+    const title = new RegExp(searchQuery, "i"); // i stands for ignore case
+
+    // find me a post that matches either:
+    // the title
+    // or the tag is in the array of tags
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
+    res.json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
