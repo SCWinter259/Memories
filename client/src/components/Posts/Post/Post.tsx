@@ -90,15 +90,18 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={handleEditButtonClick}
-        >
-          <MoreHoriz fontSize="medium" />
-        </Button>
-      </div>
+      {(user?.result?.googleId === post?.creator ||
+        user?.result?._id === post?.creator) && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={handleEditButtonClick}
+          >
+            <MoreHoriz fontSize="medium" />
+          </Button>
+        </div>
+      )}
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
           {post.tags.map((tag) => `#${tag} `)}
@@ -121,10 +124,17 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         >
           <Likes />
         </Button>
-        <Button size="small" color="primary" onClick={handleDeleteButtonClick}>
-          <Delete fontSize="small" />
-          Delete
-        </Button>
+        {(user?.result?.googleId === post?.creator ||
+          user?.result?._id === post?.creator) && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={handleDeleteButtonClick}
+          >
+            <Delete fontSize="small" />
+            Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
