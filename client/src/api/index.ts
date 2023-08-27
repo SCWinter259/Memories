@@ -31,6 +31,7 @@ export const fetchPostsBySearch = (searchQuery: any) =>
       searchQuery.tags
     }`
   );
+export const fetchPost = (id: string) => API.get(`/posts/${id}`);
 
 export const signIn = (formData: FormDataType) =>
   API.post("/user/signin", formData);

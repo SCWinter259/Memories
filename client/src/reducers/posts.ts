@@ -7,6 +7,7 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  FETCH_POST,
 } from "../constants/actionTypes";
 import { PostType } from "../types/PostType";
 
@@ -61,6 +62,11 @@ export const reducer = (
       return {
         ...state,
         posts: action.payload,
+      };
+    case FETCH_POST:
+      return {
+        ...state,
+        post: action.payload,
       };
     default:
       return state;
