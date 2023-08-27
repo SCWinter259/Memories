@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import memories from "../../images/memories.png";
-
+import decode from 'jwt-decode';
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 
@@ -15,13 +15,6 @@ export const NavBar = () => {
   const history = useHistory();
   const location = useLocation();
 
-  // we shall get the profile when that location (url) changes
-  useEffect(() => {
-    const token = user?.token;
-
-    setUser(JSON.parse(localStorage.getItem("profile") + ""));
-  }, [location]);
-
   const logout = () => {
     dispatch({type: 'LOGOUT'});
 
@@ -29,6 +22,24 @@ export const NavBar = () => {
 
     setUser(null);
   }
+
+  // we shall get the profile when that location (url) changes
+  useEffect(() => {
+    const token = user?.token;
+
+    if(token) {
+      const decodedToken = decode<any>(token);
+
+      // checks if the token has expired or not.
+      // decodedToken.exp returns the expire time in seconds since epoch
+      // Date().getTime() returns the number of miliseconds since epoch
+      if(decodedToken.exp * 1000 < new Date().getTime()) {
+        logout();
+      }
+    }
+
+    setUser(JSON.parse(localStorage.getItem("profile") + ""));
+  }, [location]);
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
