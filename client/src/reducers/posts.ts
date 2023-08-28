@@ -8,6 +8,7 @@ import {
   START_LOADING,
   END_LOADING,
   FETCH_POST,
+  COMMENT,
 } from "../constants/actionTypes";
 import { PostType } from "../types/PostType";
 
@@ -67,6 +68,16 @@ export const reducer = (
       return {
         ...state,
         post: action.payload.post,
+      };
+    case COMMENT:
+      return {
+        ...state,
+        posts: state.posts.map((post: PostType) => {
+          if (post._id === action.payload._id) {
+            return action.payload;
+          }
+          return post;
+        }),
       };
     default:
       return state;

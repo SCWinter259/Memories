@@ -6,6 +6,7 @@ export type PostType = {
   creator: string;
   tags: [string];
   selectedFile: string;
+  comments: string[];
   likes: string[];
   createdAt: Date;
   __v: number;

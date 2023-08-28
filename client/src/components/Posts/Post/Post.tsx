@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import useStyles from "./styles";
 import {
   Card,
@@ -31,13 +31,26 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(String(localStorage.getItem("profile")));
   const history = useHistory();
+  const [likes, setLikes] = useState(post?.likes);
+
+  const gId = user?.result?.googleId;
+  const myId = user?.result?._id;
+
+  const hasLikedPost = post.likes.find((like) => like === (gId || myId));
 
   const handleEditButtonClick = () => {
     setCurrentId(post._id);
   };
 
-  const handleLikeButtonClick = () => {
+  const handleLikeButtonClick = async () => {
     dispatch(likePost(post._id));
+
+    // if user has liked the post then clicking the button again shall dislike
+    if(hasLikedPost) {
+      setLikes(post.likes.filter((id) => id !== (gId || myId)));
+    } else {
+      setLikes([...post.likes, gId || myId]);
+    }
   };
 
   const handleDeleteButtonClick = () => {
@@ -51,24 +64,21 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
   // a mini component to change the 'like' and 'likes'
   // in plural and singular cases
   const Likes = () => {
-    const numberOfLikes = post.likes.length;
-    const gId = user?.result?.googleId;
-    const myId = user?.result?._id;
-    const likeText = numberOfLikes > 1 ? "likes" : "like";
+    const likeText = likes.length > 1 ? "likes" : "like";
 
-    if (numberOfLikes > 0) {
-      return post.likes.find((like) => like === (gId || myId)) ? (
+    if (likes.length > 0) {
+      return hasLikedPost ? (
         <Fragment>
           <ThumbUpAlt fontSize="small" />
           &nbsp;
-          {numberOfLikes > 2
-            ? `You and ${numberOfLikes - 1} others`
-            : `${numberOfLikes} ${likeText}`}
+          {likes.length > 2
+            ? `You and ${likes.length - 1} others`
+            : `${likes.length} ${likeText}`}
         </Fragment>
       ) : (
         <Fragment>
           <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{numberOfLikes} {likeText}
+          &nbsp;{likes.length} {likeText}
         </Fragment>
       );
     }
