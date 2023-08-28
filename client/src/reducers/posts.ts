@@ -7,6 +7,8 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  FETCH_POST,
+  COMMENT,
 } from "../constants/actionTypes";
 import { PostType } from "../types/PostType";
 
@@ -60,7 +62,22 @@ export const reducer = (
     case FETCH_BY_SEARCH:
       return {
         ...state,
-        posts: action.payload,
+        posts: action.payload.data,
+      };
+    case FETCH_POST:
+      return {
+        ...state,
+        post: action.payload.post,
+      };
+    case COMMENT:
+      return {
+        ...state,
+        posts: state.posts.map((post: PostType) => {
+          if (post._id === action.payload._id) {
+            return action.payload;
+          }
+          return post;
+        }),
       };
     default:
       return state;
