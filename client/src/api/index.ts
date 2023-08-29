@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PostType } from "../types/PostType";
 import { FormDataType } from "../types/FormDataType";
+import { getUser } from "../utils/UtilFunctions";
 
 // axios is used to make api calls (send requests) to our own backend
 const API = axios.create({ baseURL: "http://localhost:5000" });
@@ -11,9 +12,8 @@ const API = axios.create({ baseURL: "http://localhost:5000" });
 // middleware to verify that we are logged in
 API.interceptors.request.use((req: any) => {
   if (localStorage.getItem("profile")) {
-    const profile = String(localStorage.getItem("profile"));
     // the string token has to start with Bearer
-    req.headers.authorization = `Bearer ${JSON.parse(profile).token}`;
+    req.headers.authorization = `Bearer ${getUser()?.token}`;
   }
 
   return req;
