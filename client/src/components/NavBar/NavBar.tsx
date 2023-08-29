@@ -6,18 +6,18 @@ import memoriesText from "../../images/memoriesText.png";
 import decode from "jwt-decode";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
+import { LOGOUT } from "../../constants/actionTypes";
+import { getUser } from "../../utils/UtilFunctions";
 
 export const NavBar = () => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("profile") + "")
-  ); // + "" to turn possible null value into string
+  const [user, setUser] = useState(getUser());
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" });
+    dispatch({ type: LOGOUT });
 
     history.push("/");
 
@@ -39,7 +39,7 @@ export const NavBar = () => {
       }
     }
 
-    setUser(JSON.parse(localStorage.getItem("profile") + ""));
+    setUser(getUser());
   }, [location]);
 
   return (

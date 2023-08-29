@@ -3,9 +3,13 @@ import { Typography, TextField, Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import useStyles from "./styles";
 import { commentPost } from "../../actions/posts";
+import { getUser } from "../../utils/UtilFunctions";
+import { DisplayComments } from "./DisplayComments";
+import { CommentBox } from "./CommentBox";
+import { PostType } from "../../types/PostType";
 
 interface CommentSectionProps {
-  post: any;
+  post: PostType;
 }
 
 export const CommentSection: React.FC<CommentSectionProps> = ({ post }) => {
@@ -13,19 +17,19 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ post }) => {
   const [comments, setComments] = useState(post?.comments);
   const [comment, setComment] = useState("");
   const dispatch = useDispatch();
-  const user = JSON.parse(String(localStorage.getItem("profile")));
+  const user = getUser();
   const commentsRef = useRef<HTMLDivElement>(null);
 
   const commentChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   };
 
-  const handleClick = async () => {
-    const finalComment = `${user.result.name}: ${comment}`;
-    const newComments = await dispatch(commentPost(finalComment, post._id));
+  const handleClick = () => {
+    const finalComment = `${user?.result.name}: ${comment}`;
+    dispatch(commentPost(finalComment, post._id));
 
-    setComments(newComments);
-    setComments("");
+    setComments([...comments, finalComment]);
+    setComment("");
 
     commentsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -33,43 +37,13 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ post }) => {
   return (
     <div>
       <div className={classes.commentsOuterContainer}>
-        <div className={classes.commentsInnerContainer}>
-          <Typography gutterBottom variant="h6">
-            Comments
-          </Typography>
-          {comments.map((comment: string, index: number) => (
-            <Typography key={index} gutterBottom variant="subtitle1">
-              <strong>{comment.split(': ')[0]}</strong>
-              {comment.split(':')[1]}
-            </Typography>
-          ))}
-          <div ref={commentsRef} />
-        </div>
+        <DisplayComments comments={comments} commentsRef={commentsRef} />
         {user?.result?.name && (
-          <div style={{ width: "70%" }}>
-            <Typography gutterBottom variant="h6">
-              Write a comment
-            </Typography>
-            <TextField
-              fullWidth
-              minRows={4}
-              variant="outlined"
-              label="Comment"
-              multiline
-              value={comment}
-              onChange={commentChangeHandler}
-            />
-            <Button
-              style={{ marginTop: "10px" }}
-              fullWidth
-              disabled={!comment}
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-            >
-              Comment
-            </Button>
-          </div>
+          <CommentBox
+            comment={comment}
+            commentChangeHandler={commentChangeHandler}
+            handleClick={handleClick}
+          />
         )}
       </div>
     </div>

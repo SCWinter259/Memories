@@ -4,9 +4,6 @@ import {
   Grow,
   Grid,
   Paper,
-  AppBar,
-  TextField,
-  Button,
   Container,
 } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
@@ -14,8 +11,8 @@ import { Posts } from "../Posts/Posts";
 import { Form } from "../Form/Form";
 import { getPostsBySearch } from "../../actions/posts";
 import { Paginate } from "../Pagination";
-import ChipInput from "material-ui-chip-input";
 import useStyles from "./styles";
+import { SearchForm } from "./SearchForm";
 
 /* 
     Container centers your content horizontally
@@ -31,7 +28,7 @@ const useQuery = () => {
 };
 
 export const Home = () => {
-  const [currentId, setCurrentId] = useState(0);
+  const [currentId, setCurrentId] = useState("");
   const dispatch = useDispatch();
   const query = useQuery();
   const history = useHistory();
@@ -91,37 +88,15 @@ export const Home = () => {
             <Posts setCurrentId={setCurrentId} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppBar
-              className={classes.appBarSearch}
-              position="static"
-              color="inherit"
-            >
-              <TextField
-                name="search"
-                variant="outlined"
-                label="Search Memories"
-                onKeyDown={handleKeyPress}
-                fullWidth
-                value={search}
-                onChange={onSearchChangeHandler}
-              />
-              <ChipInput
-                style={{ margin: "10px 0" }}
-                value={tags}
-                onAdd={handleAdd}
-                onDelete={handleDelete}
-                label="Search Tags"
-                variant="outlined"
-              />
-              <Button
-                onClick={searchPost}
-                className={classes.appBarSearch}
-                variant="contained"
-                color="primary"
-              >
-                Search
-              </Button>
-            </AppBar>
+            <SearchForm
+              handleKeyPress={handleKeyPress}
+              search={search}
+              onSearchChangeHandler={onSearchChangeHandler}
+              tags={tags}
+              handleAdd={handleAdd}
+              handleDelete={handleDelete}
+              searchPost={searchPost}
+            />
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             {!searchQuery && !tags.length && (
               <Paper elevation={6} className={classes.pagination}>

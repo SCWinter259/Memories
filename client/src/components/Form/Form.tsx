@@ -8,21 +8,28 @@ import { useHistory } from "react-router-dom";
 import { NotLoggedInMessage } from "./NotLoggedInMessage";
 import { FormButtons } from "./FormButtons";
 import { FormFields } from "./FormFields";
+import { getUser } from "../../utils/UtilFunctions";
 
 interface FormProps {
-  currentId: string | number | null;
+  currentId: string;
   setCurrentId: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const initialState = {
   title: "",
   message: "",
-  tags: [""],
+  tags: [],
   selectedFile: "",
+  name: "",
+  creator: "",
+  comments: [],
+  likes: [],
+  createdAt: new Date(),
+  _id: ""
 };
 
 export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
-  const [postData, setPostData] = useState(initialState);
+  const [postData, setPostData] = useState<PostType>(initialState);
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -33,7 +40,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
       : null
   );
 
-  const user = JSON.parse(String(localStorage.getItem("profile")));
+  const user = getUser();
   const history = useHistory();
 
   useEffect(() => {
@@ -59,9 +66,9 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const handleSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
 
-    if (currentId === 0) {
+    if (currentId === "" && user?.result) {
       dispatch(createPost({ ...postData, name: user?.result?.name }, history));
-    } else {
+    } else if (user?.result) {
       dispatch(
         updatePost(currentId, { ...postData, name: user?.result?.name })
       );
