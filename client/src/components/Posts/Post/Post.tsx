@@ -8,7 +8,6 @@ import {
   ButtonBase,
 } from "@material-ui/core";
 import moment from "moment";
-import { PostType } from "../../../types/PostType";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../redux/actions/posts";
 import { useHistory } from "react-router-dom";
@@ -20,7 +19,7 @@ import { TextBody } from "./TextBody";
 import { EditButton } from "./EditButton";
 
 interface PostProps {
-  post: PostType;
+  post: any;
   setCurrentId: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -33,7 +32,7 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
 
   const userId = user?.result?.googleId || user?.result?._id;
 
-  const hasLikedPost = post.likes.find((like) => like === userId);
+  const hasLikedPost = likes?.find((like: string) => like === userId);
 
   const handleEditButtonClick = () => {
     setCurrentId(post._id);
@@ -44,7 +43,7 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
 
     // if user has liked the post then clicking the button again shall dislike
     if (hasLikedPost) {
-      setLikes(post.likes.filter((id) => id !== userId));
+      setLikes(post.likes.filter((id: string) => id !== userId));
     } else if (userId && !hasLikedPost) {
       setLikes([...post.likes, userId]);
     }

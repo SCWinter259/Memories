@@ -1,13 +1,13 @@
 export type PostType = {
-    _id: string;
+    _id?: string;
   title: string;
   message: string;
-  name: string;
-  creator: string;
+  name?: string;
+  creator?: string;
   tags: string[];
   selectedFile: string;
-  comments: string[];
-  likes: string[];
-  createdAt: Date;
+  comments?: string[];
+  likes?: string[];
+  createdAt?: Date;
   __v?: number;
 }

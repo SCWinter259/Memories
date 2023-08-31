@@ -3,7 +3,6 @@ import useStyles from "./styles";
 import { Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../redux/actions/posts";
-import { PostType } from "../../types/PostType";
 import { useHistory } from "react-router-dom";
 import { NotLoggedInMessage } from "./NotLoggedInMessage";
 import { FormButtons } from "./FormButtons";
@@ -18,25 +17,20 @@ interface FormProps {
 const initialState = {
   title: "",
   message: "",
-  tags: [],
+  tags: [] as string[],
   selectedFile: "",
-  name: "",
-  creator: "",
-  comments: [],
-  likes: [],
-  createdAt: new Date(),
-  _id: ""
 };
 
 export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
-  const [postData, setPostData] = useState<PostType>(initialState);
+  const [postData, setPostData] = useState(initialState);
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  console.log("State in Form:", useSelector((state: any) => state))
   // find the post with the correct id that needs to be updated
   const post = useSelector((state: any) =>
     currentId
-      ? state.posts.posts.find((item: PostType) => item._id === currentId)
+      ? state.posts.posts.find((item: any) => item._id === currentId)
       : null
   );
 
@@ -77,7 +71,7 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   };
 
   const clear = () => {
-    setCurrentId(0);
+    setCurrentId("");
     setPostData(initialState);
   };
 

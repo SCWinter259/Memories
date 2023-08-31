@@ -1,5 +1,4 @@
 import axios from "axios";
-import { PostType } from "../types/PostType";
 import { FormDataType } from "../types/FormDataType";
 import { getUser } from "../utils/UtilFunctions";
 
@@ -20,8 +19,8 @@ API.interceptors.request.use((req: any) => {
 });
 
 export const fetchPosts = (page: string | 1) => API.get(`/posts?page=${page}`);
-export const createPost = (newPost: PostType) => API.post("/posts", newPost);
-export const updatePost = (id: string, updatedPost: PostType) =>
+export const createPost = (newPost: any) => API.post("/posts", newPost);
+export const updatePost = (id: string, updatedPost: any) =>
   API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id: string) => API.delete(`/posts/${id}`);
 export const likePost = (id: string) => API.patch(`/posts/${id}/likePost`);

@@ -10,6 +10,7 @@ interface PaginateProps {
 }
 
 export const Paginate: React.FC<PaginateProps> = ({ page }) => {
+  console.log("State in Paginate:", useSelector((state: any) => state))
   const { numberOfPages } = useSelector((state: any) => state.posts);
   const classes = useStyles();
   const dispatch = useDispatch();

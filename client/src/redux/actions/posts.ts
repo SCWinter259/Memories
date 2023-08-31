@@ -12,7 +12,6 @@ import {
   FETCH_POST,
   COMMENT,
 } from "../../constants/actionTypes";
-import { PostType } from "../../types/PostType";
 import { History } from "history";
 
 // action creators are functions that return an action
@@ -36,22 +35,22 @@ export const getPosts =
   };
 
 export const createPost =
-  (post: PostType, history: History) => async (dispatch: Dispatch<any>) => {
+  (post: any, history: History) => async (dispatch: Dispatch<any>) => {
     try {
       dispatch({ type: START_LOADING });
 
       const { data } = await api.createPost(post);
 
-      history.push(`/posts/${data._id}`);
-
       dispatch({ type: CREATE, payload: data });
+
+      history.push(`/posts/${data._id}`);
     } catch (error) {
       console.log(error);
     }
   };
 
 export const updatePost =
-  (id: string, post: PostType) => async (dispatch: Dispatch<any>) => {
+  (id: string, post: any) => async (dispatch: Dispatch<any>) => {
     try {
       const { data } = await api.updatePost(id, post);
       dispatch({ type: UPDATE, payload: data });
@@ -91,7 +90,6 @@ export const getPostsBySearch =
 
       dispatch({ type: FETCH_BY_SEARCH, payload: { data } });
       dispatch({ type: END_LOADING });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +102,6 @@ export const getPost = (id: string) => async (dispatch: Dispatch<any>) => {
     const { data } = await api.fetchPost(id);
 
     dispatch({ type: FETCH_POST, payload: { post: data } });
-    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }
