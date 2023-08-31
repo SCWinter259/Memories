@@ -9,7 +9,7 @@ import {
 import { useHistory, useLocation } from "react-router-dom";
 import { Posts } from "../Posts/Posts";
 import { Form } from "../Form/Form";
-import { getPostsBySearch } from "../../actions/posts";
+import { getPostsBySearch } from "../../redux/actions/posts";
 import { Paginate } from "../Pagination";
 import useStyles from "./styles";
 import { SearchForm } from "./SearchForm";

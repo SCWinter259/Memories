@@ -10,7 +10,7 @@ import moment from "moment";
 import { useParams, useHistory } from "react-router-dom";
 import { CommentSection } from "./CommentSection";
 import useStyles from "./styles";
-import { getPost, getPostsBySearch } from "../../actions/posts";
+import { getPost, getPostsBySearch } from "../../redux/actions/posts";
 import { PostType } from "../../types/PostType";
 
 export const PostDetails = () => {

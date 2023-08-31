@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import * as api from "../api";
+import * as api from "../../api";
 import {
   FETCH_ALL,
   CREATE,
@@ -11,8 +11,8 @@ import {
   END_LOADING,
   FETCH_POST,
   COMMENT,
-} from "../constants/actionTypes";
-import { PostType } from "../types/PostType";
+} from "../../constants/actionTypes";
+import { PostType } from "../../types/PostType";
 import { History } from "history";
 
 // action creators are functions that return an action

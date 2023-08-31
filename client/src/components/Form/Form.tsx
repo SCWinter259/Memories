@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import { Typography, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost, updatePost } from "../../actions/posts";
+import { createPost, updatePost } from "../../redux/actions/posts";
 import { PostType } from "../../types/PostType";
 import { useHistory } from "react-router-dom";
 import { NotLoggedInMessage } from "./NotLoggedInMessage";
