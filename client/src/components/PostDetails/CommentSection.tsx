@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Typography, TextField, Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import useStyles from "./styles";
-import { commentPost } from "../../actions/posts";
+import { commentPost } from "../../redux/actions/posts";
 import { getUser } from "../../utils/UtilFunctions";
 import { DisplayComments } from "./DisplayComments";
 import { CommentBox } from "./CommentBox";

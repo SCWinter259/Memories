@@ -2,10 +2,13 @@ export type UserType = {
   result: {
     email: string;
     name: string;
-    password: string;
+    password?: string;
     imageUrl?: string;
-    __v: number;
-    _id: string;
+    familyName?: string;
+    givenName?: string;
+    googleId?: string;
+    __v?: number;
+    _id?: string;
   };
   token: string;
 };

@@ -1,6 +1,6 @@
-import { FormDataType } from "../types/FormDataType";
-import { AUTH } from "../constants/actionTypes";
-import * as api from "../api/index";
+import { FormDataType } from "../../types/FormDataType";
+import { AUTH } from "../../constants/actionTypes";
+import * as api from "../../api/index";
 import { History } from "history";
 import { Dispatch } from "redux";
 

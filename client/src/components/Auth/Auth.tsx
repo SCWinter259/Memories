@@ -3,7 +3,7 @@ import { Paper, Grid, Container } from "@material-ui/core";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { signin, signup } from "../../actions/auth";
+import { signin, signup } from "../../redux/actions/auth";
 import { AUTH } from "../../constants/actionTypes";
 import { AuthButtons } from "./AuthButtons";
 import { AuthHeader } from "./AuthHeader";

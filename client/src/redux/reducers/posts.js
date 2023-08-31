@@ -7,7 +7,7 @@ import {
   DELETE,
   LIKE,
   COMMENT,
-} from "../constants/actionTypes";
+} from "../../constants/actionTypes";
 
 export const reducer = (state = { isLoading: true, posts: [] }, action) => {
   switch (action.type) {
