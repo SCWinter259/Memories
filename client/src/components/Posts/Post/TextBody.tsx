@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
 import { Typography, CardContent } from "@material-ui/core";
 import useStyles from "./styles";
-import { PostType } from "../../../types/PostType";
 
 interface TextBodyProps {
-  post: PostType;
+  post: any;
 }
 
 export const TextBody: React.FC<TextBodyProps> = ({ post }) => {
@@ -14,7 +13,7 @@ export const TextBody: React.FC<TextBodyProps> = ({ post }) => {
     <Fragment>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
-          {post.tags.map((tag) => `#${tag} `)}
+          {post.tags.map((tag: string) => `#${tag} `)}
         </Typography>
       </div>
       <Typography className={classes.title} variant="h5" gutterBottom>

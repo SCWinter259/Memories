@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
-import { Typography, Divider } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import moment from "moment";
-import { PostType } from "../../types/PostType";
 
 interface PostContentProps {
-  post: PostType;
+  post: any;
 }
 
 export const PostContent: React.FC<PostContentProps> = ({ post }) => {
@@ -27,10 +26,6 @@ export const PostContent: React.FC<PostContentProps> = ({ post }) => {
       <Typography variant="h6">Created by: {post.name}</Typography>
       <Typography variant="body1">
         {moment(post.createdAt).fromNow()}
-      </Typography>
-      <Divider style={{ margin: "20px 0" }} />
-      <Typography variant="body1">
-        <strong>Realtime Chat - coming soon!</strong>
       </Typography>
     </Fragment>
   );

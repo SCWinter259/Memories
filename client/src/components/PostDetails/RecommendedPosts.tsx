@@ -1,11 +1,10 @@
 import React from "react";
 import { Typography, Divider } from "@material-ui/core";
 import useStyles from "./styles";
-import { PostType } from "../../types/PostType";
 
 interface RecommendedPostsProps {
-  recommendedPosts: PostType[];
-  openPost: (_id: string) => void;
+  recommendedPosts: any;
+  openPost: (_id: string | undefined) => void;
 }
 
 export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({
@@ -22,7 +21,7 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({
       <Divider />
       <div className={classes.recommendedPosts}>
         {recommendedPosts.map(
-          ({ title, message, name, likes, selectedFile, _id }: PostType) => (
+          ({ title, message, name, likes, selectedFile, _id }: any) => (
             <div
               style={{ margin: "20px", cursor: "pointer" }}
               onClick={() => openPost(_id)}
