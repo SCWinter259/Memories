@@ -21,6 +21,7 @@ app.get("/", (req, res) => res.send("APP IS RUNNING"));
 
 // it seems like we cannot do a process.env.PORT below because
 // the code below is in a promise
+const host = '0.0.0.0';
 const PORT = process.env.PORT || 5000;
 const CONNECTION_URL =
   "mongodb+srv://scwinter:scwinter123123@cluster0.qqixjgx.mongodb.net/?retryWrites=true&w=majority";
@@ -32,7 +33,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() =>
-    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+    app.listen(PORT, host, () => console.log(`Server running on port: ${PORT}`))
   )
   .catch((error) => console.log(error.message));
 
