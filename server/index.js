@@ -22,10 +22,12 @@ app.get("/", (req, res) => res.send("APP IS RUNNING"));
 // it seems like we cannot do a process.env.PORT below because
 // the code below is in a promise
 const PORT = process.env.PORT || 5000;
+const CONNECTION_URL =
+  "mongodb+srv://scwinter:scwinter123123@cluster0.qqixjgx.mongodb.net/?retryWrites=true&w=majority";
 
 // connect to the database
 mongoose
-  .connect(process.env.CONNECTION_URL, {
+  .connect(CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
