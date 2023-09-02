@@ -14,8 +14,9 @@ import DefaultImage from "../../images/DefaultImage.png";
 import { PostContent } from "./PostContent";
 
 export const PostDetails = () => {
-  console.log("the state in PostDetails:", useSelector((state: any) => state))
+  // console.log("the state in PostDetails:", useSelector((state: any) => state))
   const { post, posts, isLoading } = useSelector((state: any) => state.posts);
+  console.log('Posts:', posts);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
