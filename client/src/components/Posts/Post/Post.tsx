@@ -65,10 +65,15 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         onClick={openPost}
       >
         <CardMedia
-          className={classes.media}
+        style={{ height: "250px", paddingTop: "0px" }}
+        component="img"
+          // className={classes.media}
           image={post.selectedFile || DefaultImage}
+          // src={post.selectedFile || DefaultImage}
           title={post.title}
-        />
+          >
+          {/* <img className={classes.media} src={post.selectedFile || DefaultImage}></img> */}
+        </CardMedia>
         <div className={classes.overlay}>
           <Typography variant="h6">{post.name}</Typography>
           <Typography variant="body2">
