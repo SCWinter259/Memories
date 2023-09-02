@@ -151,5 +151,5 @@ export const commentPost = async (req, res) => {
     new: true,
   });
 
-  res.json(updatePost);
+  res.json(updatedPost);
 };
