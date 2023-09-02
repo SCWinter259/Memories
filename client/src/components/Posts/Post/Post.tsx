@@ -61,13 +61,14 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
     <Card className={classes.card} raised elevation={6}>
       <ButtonBase
         component="span"
-        className={classes.cardAction}
+        // className={classes.cardAction}
+        style={{display: 'block', textAlign: 'initial'}}
         onClick={openPost}
       >
         <CardMedia
-          style={{ height: "12rem", paddingTop: "0px" }}
+          style={{ height: "12rem", paddingTop: "0px", backgroundBlendMode: "darken", backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
           component="img"
-          className={classes.media}
+          // className={classes.media}
           image={post.selectedFile || DefaultImage}
           title={post.title}
         />
