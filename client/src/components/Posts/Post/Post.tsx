@@ -65,7 +65,7 @@ export const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
         onClick={openPost}
       >
         <CardMedia
-        style={{ height: "250px", paddingTop: "0px" }}
+        style={{ height: "0px", paddingTop: "56.25%" }}
         component="img"
           // className={classes.media}
           image={post.selectedFile || DefaultImage}
