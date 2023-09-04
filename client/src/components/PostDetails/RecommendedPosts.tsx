@@ -37,7 +37,7 @@ export const RecommendedPosts: React.FC<RecommendedPostsProps> = ({
                 {message}
               </Typography>
               <Typography gutterBottom variant="subtitle1">
-                {likes?.length}
+                {likes?.length} likes
               </Typography>
               <img src={selectedFile} width="200px" />
             </div>
