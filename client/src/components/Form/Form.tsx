@@ -26,7 +26,6 @@ export const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  console.log("State in Form:", useSelector((state: any) => state))
   // find the post with the correct id that needs to be updated
   const post = useSelector((state: any) =>
     currentId

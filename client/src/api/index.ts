@@ -3,7 +3,10 @@ import { FormDataType } from "../types/FormDataType";
 import { getUser } from "../utils/UtilFunctions";
 
 // axios is used to make api calls (send requests) to our own backend
-const API = axios.create({ baseURL: "https://memoriesscwinter-262d3f9778d9.herokuapp.com/" });
+const herokuURL = "https://memoriesscwinter-262d3f9778d9.herokuapp.com/";
+const localURL = "http://localhost:5000";
+
+const API = axios.create({ baseURL: herokuURL });
 
 // a function that is called on each of our requests
 // this happens before each requests
@@ -24,9 +27,12 @@ export const updatePost = (id: string, updatedPost: any) =>
   API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id: string) => API.delete(`/posts/${id}`);
 export const likePost = (id: string) => API.patch(`/posts/${id}/likePost`);
-export const fetchPostsBySearch = (searchQuery: any) =>
+export const fetchPostsBySearch = (searchQuery: {
+  search: string;
+  tags: string;
+}) =>
   API.get(
-    `posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
+    `/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
       searchQuery.tags
     }`
   );

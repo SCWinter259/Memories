@@ -7,9 +7,10 @@ import { NavBar } from "./components/NavBar/NavBar";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { PostDetails } from "./components/PostDetails/PostDetails";
+import { getUser } from "./utils/UtilFunctions";
 
 const App = () => {
-  const user = JSON.parse(String(localStorage.getItem("profile")));
+  const user = getUser();
   
   return (
     <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}>
@@ -24,7 +25,7 @@ const App = () => {
             <Route
               path="/auth"
               exact
-              component={() => (!user ? <Auth /> : <Redirect to="/posts" />)}
+              component={() => (!user?.token ? <Auth /> : <Redirect to="/posts" />)}
             />
           </Switch>
         </Container>

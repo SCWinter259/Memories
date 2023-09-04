@@ -1,5 +1,3 @@
-import { UserType } from "../types/UserType";
-
-export const getUser = (): UserType | undefined | null => {
+export const getUser = () => {
     return JSON.parse(String(localStorage.getItem("profile")));
 }
