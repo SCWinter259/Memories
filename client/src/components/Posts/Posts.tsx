@@ -9,7 +9,6 @@ interface PostsProps {
 }
 
 export const Posts: React.FC<PostsProps> = ({ setCurrentId }) => {
-  console.log("State in Posts:", useSelector((state: any) => state))
   const { posts, isLoading } = useSelector((state: any) => state.posts);
   const classes = useStyles();
 
